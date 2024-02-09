@@ -179,6 +179,11 @@
             src: url('../candy/fonts/game.ttf') format('truetype'),
                 url('../candy/fonts/game.otf') format('opentype');
       }
+
+      #roader {
+        background-color: #FF69B4 !important;
+        background-image: url(../assets/images/candy-bg.png) !important;
+      }
       #focusHelper {
         width: 100vw;
         height: 100vh;
