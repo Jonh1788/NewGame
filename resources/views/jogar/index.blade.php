@@ -121,7 +121,7 @@
           configGame.stateGame = false;
           if (typeGame != 'Demo') {
             $.post("../gameover/win",{ valor: configGame.currentValue - configGame.value },function (data) {
-              location.href = "../painel?msg=ganhou&value=" + configGame.currentValue;
+              location.href = "../painel?msg=ganhou&value=" + configGame.currentValue - configGame.value;
             });
           }else {
             if(email){
