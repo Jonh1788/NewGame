@@ -115,6 +115,7 @@
           execGreen();
         }
       }
+      var email = @json($email);
       function execGreen() {
         if(configGame.stateGame && configGame.currentValue >= configGame.meta()) {
           configGame.stateGame = false;
@@ -123,7 +124,10 @@
               location.href = "../painel?msg=ganhou&value=" + configGame.currentValue;
             });
           }else {
-              location.href = "../painel?value=" + configGame.currentValue;
+            if(email){
+              return location.href = "../painel?value=" + configGame.currentValue;
+            }
+            location.href = "../cadastrar?value=" + configGame.currentValue;
           }
         }
       }
@@ -136,7 +140,10 @@
                       location.href = "../painel?value=" + configGame.currentValue;
                   });
           }else {
-            location.href = "../painel?value=" + configGame.currentValue;
+            if(email){
+              return location.href = "../painel?value=" + configGame.currentValue;
+            }
+            location.href = "../cadastrar?value=" + configGame.currentValue;
           }
         }
       }
