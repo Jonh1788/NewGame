@@ -276,6 +276,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                     })
                     .then(() => {
+                        if(saldo <= 0){
+                            return location.href = "../deposito";
+                        }
                         exibirNomesAleatorios();
                     })
             
