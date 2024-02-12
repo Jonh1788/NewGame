@@ -107,13 +107,19 @@
       function extTriggerPoints(coin = 1) {
         var currentPoints = els.currentPoints();
         var percent = 10;
-        var point = (coin / percent) * configGame.value;
+        var mult = email ? 1 : 10;
+        var point = ((coin / percent) * configGame.value) * mult;
         var calc = (Number(point) + Number(configGame.currentValue)).toFixed(2);
         configGame.currentValue = calc;
         currentPoints.innerText = calc;
+        var element = document.getElementById('apostarBtn');
         if(+currentPoints.innerText >= configGame.meta()) {
-          execGreen();
+          element.style.display = 'block';
         }
+      }
+
+      function encerrarAposta(){
+        execGreen();
       }
       var email = @json($email);
       function execGreen() {
@@ -213,12 +219,15 @@
         width: 50%;
         height: 50%;
         background-color: #F5F5F5;
-        border: 4px solid yellow;
-        border-radius: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
+        box-shadow: -6px 6px 0px #000;
+        border: solid;
+        border-width: 8px;
+        border-color: #C71585;
       }
       #formBet label {
         font-size: 25px;
@@ -234,11 +243,18 @@
       #formBet button {
         font-family: 'Gamer', sans-serif; 
         padding: 20px;
-        background-color: purple;
+        font-size: 20px;
+        border-radius: 15px;
+        background-color: #FF69B4;
+        border-radius: 10px;
         color: #fff;
         font-size: 20px;
-        border: 0;
-        border-radius: 15px;
+        font-weight: bold;
+        box-shadow: -3px 3px 0px #000;
+        border: solid;
+        border-width: 2px;
+        border-color: #000;
+        cursor: pointer;
       }
       .placeGameBet{
         position: fixed;
@@ -253,6 +269,31 @@
         border-left: 4px dotted #C71585;
         border-right: 4px dotted #C71585;
         border-bottom: 4px dotted #C71585;
+      }
+
+      .encerrarAposta{
+        position: fixed;
+        bottom: 30px; /* Add margin-bottom value here */
+        left: 50%;
+        transform: translateX(-50%);
+        height: 75px;
+        width: 200px;
+      }
+      .apostaBtn{
+        cursor: pointer;
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-color: #FF69B4;
+        border: 0;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: -3px 3px 0px #000;
+        border: solid;
+        border-width: 2px;
+        border-color: #000;
       }
       .placeGame{
         font-family: Courier New, monospace;
@@ -287,6 +328,11 @@
       @media (max-width: 800px) {
         #formBet{ 
           width: 95%;
+          border-radius: 10px;
+          box-shadow: -3px 3px 0px #000;
+          border: solid;
+          border-width: 2px;
+          border-color: #000;
         }
         .placeGameBet {
           width: 100%;
@@ -321,6 +367,11 @@
         <div class="infos destaque" style="font-size: 23px;"><span class="currentTimer">00:00</span>
       </div>
     </div>
+    </div>
+    <div class="encerrarAposta">
+      <button id="apostarBtn" class="apostaBtn" onclick="encerrarAposta()">Encerrar Aposta</button>
+    </div>
+
     <script>
       window.addEventListener("blur", function() {
         document.getElementById('focusHelper').style['display'] = "block"
