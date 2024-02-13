@@ -84,7 +84,7 @@
         stateGame: true,
         value: '',
         currentValue: 0,
-        timer: 60,
+        timer: 90,
         meta: () => { return configGame.value * 2; }
       }
       function setText(el, value) {
