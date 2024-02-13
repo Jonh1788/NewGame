@@ -6,6 +6,8 @@
             localStorage.removeItem('glmdataCC');
         }
     </script>
+    
+    
     <meta charset="UTF-8">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -142,8 +144,8 @@
           configGame.stateGame = false;
           if(typeGame != 'Demo') {
               var msg_loss = 'Que pena, não foi dessa vez!';
-              $.post("../auth?action=game&type=loss", { aposta: configGame.value }, function (data) {
-                      location.href = "../painel?value=" + configGame.currentValue;
+              $.post("../gameover/loss", { aposta: configGame.value, email: @json($emailSession) }, function (data) {
+                      location.href = "../painel?msg=perdeu&value=" + configGame.currentValue;
                   });
           }else {
             if(email){
@@ -177,18 +179,77 @@
           }
         });
       });
-    </script>
+    
+      <script>
+        window.addEventListener('load', (event) => {
+          var roader = document.querySelector('#roader');
+          var newDiv = document.createElement('div');
+          newDiv.classList.add('loadingDiv');
+          roader.appendChild(newDiv);
+        });
+      </script>
+
     <script src="../candy/js/game.min.js?1707450315"></script>
+
+
     <style>
       @font-face {
         font-family: 'Gamer';
             src: url('../candy/fonts/game.ttf') format('truetype'),
                 url('../candy/fonts/game.otf') format('opentype');
       }
-
+      .loadingDiv{
+        width: 100%;
+        height: 100%;
+        background-color: #FF69B4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       #roader {
         background-color: #FF69B4 !important;
         background-image: url(../assets/images/candy-bg.png) !important;
+      }
+
+      #roader::after{
+        font-family: 'ComicSansBold';
+        content: 'Aguardem...';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px;
+        width: 100%;
+        height: 100%;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 10px;
+      }
+
+      #roader::before {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        border: 4px solid #000000;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      #roader a {
+        display: none;
+      }
+
+      #roader img {
+        display: none;
       }
       #focusHelper {
         width: 100vw;
@@ -201,14 +262,14 @@
         left: 0px;
       }
       #containerFormBet{
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         width: 100vw;
         height: 100vh;
         background-image: url(./img/bg.jpg);
         background-size: cover;
       }
       #containerContent {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -234,14 +295,14 @@
         margin-bottom: 15px;
       }
       #formBet input {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         border: 3px solid purple;
         padding: 10px;
         border-radius: 10px;
         margin-bottom: 15px;
       }
       #formBet button {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         padding: 20px;
         font-size: 20px;
         border-radius: 15px;

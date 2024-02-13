@@ -92,8 +92,9 @@ class CadastrarController extends Controller
         session_start();
         session(['email' => $email]);
 
-        
-        return redirect('/painel');
+        //redirecione com uma query string
+
+        return redirect('/painel?primeiroAcesso=true');
     }
 
     private function idExists($id, $conn)

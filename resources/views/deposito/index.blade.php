@@ -207,24 +207,30 @@ kwaiq.track('completeRegistration')
 
 <section id="hero" class="hero-section sectionFruits dark wf-section">
 <div class="minting-container w-container">
-<img src="{{ asset('depositoFiles/deposit.gif')}}" loading="lazy" width="240" data-w-id="6449f730-ebd9-23f2-b6ad-c6fbce8937f7" alt="Roboto #6340" class="mint-card-image">
 <h2>Depósito</h2>
-<p>Deposite em sua conta e receba bônus de 200%. <br></p>
+<p>Realize seu depósito de forma rápida e prática através do PIX! <br></p>
+<style>
+  .imageDeposito{
+    border-radius: 10px;
+    border: 2px solid #FF69B4;
+    box-shadow: 0 0 10px #FF69B4;
+  }
+</style>
 
+@if(file_exists(public_path('depositoFiles/depositoMarketing.png')))
+  <img class="imageDeposito" src="{{ asset('depositoFiles/depositoMarketing.png') }}" alt="">
+@endif
 
  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
 
   <form  action="{{ url()->current() }}" method="POST" style="display: flex;  flex-direction: column;">
   @csrf
+  
         <div class="properties">
-            <h4 class="rarity-heading">NOME</h4>
-            <div class="rarity-row roboto-type2">
-                <input class="large-input-field w-input" type="text" placeholder="Seu nome" id="name" name="name" required><br>
-            </div>
             <h4 class="rarity-heading">CPF</h4>
              <div class="rarity-row roboto-type2">
-            <input class="large-input-field w-input" maxlength="11" placeholder="Seu número de CPF" type="text" id="document" name="document" oninput="formatarCPF(this)" required><br>
+            <input class="large-input-field w-input" maxlength="11" placeholder="Seu número de CPF" type="text" id="document" name="document" oninput="formatarCPF(this)" required>
         </div>
             <h4 class="rarity-heading">Valor para depósito</h4>
             <div class="rarity-row roboto-type2">
@@ -234,18 +240,18 @@ kwaiq.track('completeRegistration')
                     required min="<?php echo $depositoMinimo; ?>">
             </div>
         </div>
-
+        
+        <div class="button-container" style="margin: 0 auto;">
+                <button type="button" class="button button2 nav w-button" onclick="updateValue(20)">R$ 20<br>SEM BÔNUS</button>
+                <button type="button" class="button button2 nav w-button" onclick="updateValue(25)">R$ 25<br>R$75 BÔNUS</button>
+                <br><br>
+                <button type="button" class="button button2 nav w-button" onclick="updateValue(30)">R$ 30<br>R$150 BÔNUS</button>
+                <button type="button" class="button button2 nav w-button" onclick="updateValue(50)">R$ 50<br>R$200 BÔNUS</button>
+                <br><br>
+            </div>
         <input type="hidden" name="valor_transacao_session" value="{{ session('valor_transacao', '') }}">
 
 
-<div class="button-container" style="margin: 0 auto;">
-        <button type="button" class="button button2 nav w-button" onclick="updateValue(20)">R$ 20<br>SEM BÔNUS</button>
-        <button type="button" class="button button2 nav w-button" onclick="updateValue(25)">R$ 25<br>R$75 BÔNUS</button>
-        <br><br>
-        <button type="button" class="button button2 nav w-button" onclick="updateValue(30)">R$ 30<br>R$150 BÔNUS</button>
-        <button type="button" class="button button2 nav w-button" onclick="updateValue(50)">R$ 50<br>R$200 BÔNUS</button>
-        <br><br>
-    </div>
 
          <script>
         function formatarCPF(cpfInput) {

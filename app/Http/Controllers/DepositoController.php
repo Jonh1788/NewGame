@@ -53,7 +53,8 @@ class DepositoController extends Controller
         // Obtenha o formulário do request
         $form = $this->get_form($request);
         $email = session('email');
-        // Valide o formulário
+        //pegue o nome do usuario na tabela appconfig
+        $nome = DB::table('appconfig')->select('nome')->where('email', $email)->first();
         $errors = $this->validate_form($form);
         
         // Se houver erros, redirecione de volta à página de depósito com os erros
@@ -63,7 +64,7 @@ class DepositoController extends Controller
         $client_id = $gatewayCredentialsArray['client_id'];
         $client_secret = $gatewayCredentialsArray['client_secret'];
         // Faça a solicitação PIX
-        $res = $this->makePix($form['name'], $form['cpf'], $form['value'], $client_id, $client_secret);
+        $res = $this->makePix($nome, $form['cpf'], $form['value'], $client_id, $client_secret);
         
         // Verifique a resposta da solicitação PIX
         if (isset($res['paymentCode'])) {
