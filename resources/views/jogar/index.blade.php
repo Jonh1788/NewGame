@@ -107,7 +107,7 @@
       function extTriggerPoints(coin = 1) {
         var currentPoints = els.currentPoints();
         var percent = 10;
-        var mult = email ? 1.52 : 9.52;
+        var mult = email ? 1.52 : 3.52;
         var point = ((coin / percent) * configGame.value) * mult;
         var calc = (Number(point) + Number(configGame.currentValue)).toFixed(2);
         configGame.currentValue = calc;
