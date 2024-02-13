@@ -85,7 +85,7 @@
         value: '',
         currentValue: 0,
         timer: 90,
-        meta: () => { return configGame.value * 2; }
+        meta: () => { return configGame.value * 10; }
       }
       function setText(el, value) {
         el.innerText = value;
