@@ -627,44 +627,35 @@ class AdmController extends Controller
             
     }
 
-    public function gatewayUpdate(Request $request){
-            
-            if(!session()->has('emailadm')){
-                return redirect('adm/login');
-            }
-    
-            if (!$request->isMethod('post')) {
-                return response()->json(['error'=> 'Metódo não permitido'], 405);
-            }
-            
-    
-            try{
                 
-                $result = DB::table('gateway')->first();
-
-                if($result){
-
-                    $result->client_id = $request->input('client_id');
-                    $result->client_secret = $request->input('client_secret');
-                    $result->save();
-
-                    return redirect('adm/gateway');
-                } else {
-                    $result = DB::table('gateway')->insert([
-                        'client_id' => $request->input('client_id'),
-                        'client_secret' => $request->input('client_secret')
-                    ]);
-
-                    if($result){
-                        return redirect('adm/gateway');
-                    } else {
-                        return response('', 400);
-                    }
-                }
-            } catch (\Exception $ex) {
-                return response($ex, 500);
-            }
+public function gatewayUpdate(Request $request){
+    if(!session()->has('emailadm')){
+        return redirect('adm/login');
     }
 
+    if (!$request->isMethod('post')) {
+        return response()->json(['error'=> 'Método não permitido'], 405);
+    }
+
+    try{
+        $gateways = DB::table('gateway')->first();
+
+        if($gateways){
+            DB::table('gateway')->update([
+                'client_id' => $request->input('client_id'),
+                'client_secret' => $request->input('client_secret')
+            ]);
+        } else {
+            DB::table('gateway')->insert([
+                'client_id' => $request->input('client_id'),
+                'client_secret' => $request->input('client_secret')
+            ]);
+        }
+
+        return redirect('../adm/gateway');
+    } catch (\Exception $ex) {
+        return response($ex, 500);
+    }
+}
 
 }
