@@ -612,10 +612,19 @@ class AdmController extends Controller
             $gateways = DB::table('gateway')
             ->first();
 
-            $clientId = $gateways->client_id;
-            $clientSecret = $gateways->client_secret;
+            if($gateways){
+                $clientId = $gateways->client_id;
+                $clientSecret = $gateways->client_secret;
+
+                return view('adm.gateway', compact('clientId', 'clientSecret'));
+            }
+
+            $clientId =  '';
+            $clientSecret = '';
 
             return view('adm.gateway', compact('clientId', 'clientSecret'));
+
+            
     }
 
     public function gatewayUpdate(Request $request){
@@ -630,17 +639,27 @@ class AdmController extends Controller
             
     
             try{
-                $result = DB::table('gateway')
-                ->update([
-                    'client_id' => $request->input('client_id'),
-                    'client_secret' => $request->input('client_secret'),
-                ]);
-    
+                
+                $result = DB::table('gateway')->first();
+
                 if($result){
+
+                    $result->client_id = $request->input('client_id');
+                    $result->client_secret = $request->input('client_secret');
+                    $result->save();
+
                     return redirect('adm/gateway');
-    
                 } else {
-                    return response('', 400);
+                    $result = DB::table('gateway')->insert([
+                        'client_id' => $request->input('client_id'),
+                        'client_secret' => $request->input('client_secret')
+                    ]);
+
+                    if($result){
+                        return redirect('adm/gateway');
+                    } else {
+                        return response('', 400);
+                    }
                 }
             } catch (\Exception $ex) {
                 return response($ex, 500);
