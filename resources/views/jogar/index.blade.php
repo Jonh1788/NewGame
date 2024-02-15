@@ -179,16 +179,7 @@
           }
         });
       });
-    
-      <script>
-        window.addEventListener('load', (event) => {
-          var roader = document.querySelector('#roader');
-          var newDiv = document.createElement('div');
-          newDiv.classList.add('loadingDiv');
-          roader.appendChild(newDiv);
-        });
-      </script>
-
+    </script>
     <script src="../candy/js/game.min.js?1707450315"></script>
 
 
