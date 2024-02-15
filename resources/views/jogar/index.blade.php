@@ -109,7 +109,7 @@
       function extTriggerPoints(coin = 1) {
         var currentPoints = els.currentPoints();
         var percent = 10;
-        var multDB = @json{$multiplicador};
+        var multDB = @json($multiplicador);
         multDB = parseFloat(multDB);
         var mult = email ? (multDB * 1.52) : (multDB * 3.52);
         var point = ((coin / percent) * configGame.value) * mult;
