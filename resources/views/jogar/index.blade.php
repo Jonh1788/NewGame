@@ -179,6 +179,7 @@
           }
         });
       });
+      
     </script>
     <script src="../candy/js/game.min.js?1707450315"></script>
 
