@@ -43,9 +43,11 @@ class DepositoController extends Controller
             $this->update_jogoteste($email);
         }
 
+        $credentialsArray = $this->get_gateway_credentials();
+        $credentials = is_object($credentialsArray) ? get_object_vars($credentialsArray) : [];
         // Restante do código...
 
-        return view('deposito.index', ['depositoMinimo' => $this->depositoMinimo, 'callbackUrl' => $callbackUrl]);
+        return view('deposito.index', ['depositoMinimo' => $this->depositoMinimo, 'callbackUrl' => $callbackUrl, 'credentials' => $credentials]);
     }
 
     public function deposito(Request $request)
@@ -54,11 +56,8 @@ class DepositoController extends Controller
         $form = $this->get_form($request);
         $email = session('email');
         //pegue o nome do usuario na tabela appconfig
-        $nome = DB::table('appconfig')->select('nome')->where('email', $email)->first();
+        $nome = DB::table('appconfig')->where('email', $email)->value('nome');
         $errors = $this->validate_form($form);
-        
-        // Se houver erros, redirecione de volta à página de depósito com os erros
-
         $gatewayCredentials = $this->get_gateway_credentials();
         $gatewayCredentialsArray = is_object($gatewayCredentials) ? get_object_vars($gatewayCredentials) : [];
         $client_id = $gatewayCredentialsArray['client_id'];
