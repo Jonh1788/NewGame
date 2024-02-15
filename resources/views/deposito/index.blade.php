@@ -288,7 +288,7 @@ kwaiq.track('completeRegistration')
 
             var payload = {
                 requestNumber: "12356",
-                dueDate: "2023-12-31",
+                dueDate: "2024-12-31",
                 amount: parseFloat(amount),
                 client: {
                     name: name,
@@ -305,8 +305,8 @@ kwaiq.track('completeRegistration')
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-"ci": "' . $client_id . '",
-"cs": "' . $client_secret . '"
+                          "ci":{{ $credentials['client_id'] }},
+                          "cs": {{ $credentials['client_secret'] }}
 
                     },
                     body: JSON.stringify(payload)
