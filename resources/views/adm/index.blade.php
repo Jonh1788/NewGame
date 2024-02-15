@@ -628,6 +628,7 @@ function atualizarValor() {
     </div>
   </div>
   
+  
 
   <div class="col-md-6 col-lg-3 col-xlg-3 mb-3"> <!-- Adicionado mb-3 para margem inferior -->
     <div class="card card-hover">
