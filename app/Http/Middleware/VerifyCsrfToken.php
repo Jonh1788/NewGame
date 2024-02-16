@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         '/pix1',
         '/jogar',
         '/gameover/loss',
-        '/gameover/win'
+        '/gameover/win',
+        '/deposito',
     ];
 }

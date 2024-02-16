@@ -1830,6 +1830,15 @@ define("scripts/lib/buzz.js", function(exports){
 	// THE SOFTWARE.
 	// ----------------------------------------------------------------------------
 	
+	/**
+	 * The buzz object represents a sound player.
+	 * @typedef {Object} buzz
+	 * @property {Object} defaults - The default options for the sound player.
+	 * @property {Object} types - The supported audio formats and their MIME types.
+	 * @property {Array} sounds - An array of sound objects.
+	 * @property {HTMLElement} el - The audio element used for playing sounds.
+	 * @property {Function} sound - A constructor function for creating sound objects.
+	 */
 	var buzz = {
 	    defaults: {
 	        autoplay: false,

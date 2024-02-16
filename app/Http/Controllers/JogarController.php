@@ -10,10 +10,10 @@ class JogarController extends Controller
 
         if($request->has('_token')){
 
-            $email = session('email');
+            $emailSession = session('email');
 
             $saldo = DB::table('appconfig')
-            ->where('email',$email)
+            ->where('email',$emailSession)
             ->value('saldo');
     
             $multiplicador = DB::table('app')
@@ -22,14 +22,14 @@ class JogarController extends Controller
             $token = $request->_token ?  $request->_token : 0;
             $aposta = $request->bet ? $request->bet : 0; 
             $jogo = "Real";
-            $email = $email || 0;
+            $email = $emailSession || 0;
 
-            return view("jogar.index", compact('aposta', 'token', 'saldo', 'multiplicador', 'jogo', 'email'));
+            return view("jogar.index", compact('aposta', 'token', 'saldo', 'multiplicador', 'jogo', 'email', 'emailSession'));
         }
 
-        $email = session('email');
+        $emailSession = session('email');
         $saldo = 10;
-        $email = $email || 0;
+        $email = $emailSession || 0;
         $multiplicador = DB::table('app')
             ->value('multiplicador');
 
@@ -37,7 +37,7 @@ class JogarController extends Controller
         $aposta = $request->bet ? $request->bet : 0; 
         $jogo = "Demo";
 
-        return view("jogar.index", compact('aposta', 'token', 'saldo', 'multiplicador', 'jogo', 'email'));
+        return view("jogar.index", compact('aposta', 'token', 'saldo', 'multiplicador', 'jogo', 'email', 'emailSession'));
         
     }
 }

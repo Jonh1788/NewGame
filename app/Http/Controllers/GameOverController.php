@@ -124,13 +124,8 @@ class GameOverController extends Controller
 
     public function loss(Request $request){
 
-        if(!session()->has("email")){
-            return redirect("/");
-        }
-        
-        $email = session()->has("email") ? session()->get("email") : "";
+        $email = $request->email;
         $saldo = $this->pegarSaldo($email);
-        
         $valor = $request->aposta;
 
         if ($request->aposta) {

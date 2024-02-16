@@ -6,6 +6,8 @@
             localStorage.removeItem('glmdataCC');
         }
     </script>
+    
+    
     <meta charset="UTF-8">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -84,8 +86,8 @@
         stateGame: true,
         value: '',
         currentValue: 0,
-        timer: 60,
-        meta: () => { return configGame.value * 2; }
+        timer: 90,
+        meta: () => { return configGame.value * 10; }
       }
       function setText(el, value) {
         el.innerText = value;
@@ -107,23 +109,35 @@
       function extTriggerPoints(coin = 1) {
         var currentPoints = els.currentPoints();
         var percent = 10;
-        var point = (coin / percent) * configGame.value;
+        var multDB = @json($multiplicador);
+        multDB = parseFloat(multDB);
+        var mult = email ? (multDB * 1.52) : (multDB * 3.52);
+        var point = ((coin / percent) * configGame.value) * mult;
         var calc = (Number(point) + Number(configGame.currentValue)).toFixed(2);
         configGame.currentValue = calc;
         currentPoints.innerText = calc;
+        var element = document.getElementById('apostarBtn');
         if(+currentPoints.innerText >= configGame.meta()) {
-          execGreen();
+          element.style.display = 'block';
         }
       }
+
+      function encerrarAposta(){
+        execGreen();
+      }
+      var email = @json($email);
       function execGreen() {
         if(configGame.stateGame && configGame.currentValue >= configGame.meta()) {
           configGame.stateGame = false;
           if (typeGame != 'Demo') {
             $.post("../gameover/win",{ valor: configGame.currentValue - configGame.value },function (data) {
-              location.href = "../painel?msg=ganhou&value=" + configGame.currentValue;
+              location.href = "../painel?msg=ganhou&value=" + (configGame.currentValue - configGame.value);
             });
           }else {
-              location.href = "../painel?value=" + configGame.currentValue;
+            if(email){
+              return location.href = "../painel?value=" + configGame.currentValue;
+            }
+            location.href = "../cadastrar?value=" + configGame.currentValue;
           }
         }
       }
@@ -132,11 +146,14 @@
           configGame.stateGame = false;
           if(typeGame != 'Demo') {
               var msg_loss = 'Que pena, não foi dessa vez!';
-              $.post("../auth?action=game&type=loss", { aposta: configGame.value }, function (data) {
-                      location.href = "../painel?value=" + configGame.currentValue;
+              $.post("../gameover/loss", { aposta: configGame.value, email: @json($emailSession) }, function (data) {
+                      location.href = "../painel?msg=perdeu&value=" + configGame.currentValue;
                   });
           }else {
-            location.href = "../painel?value=" + configGame.currentValue;
+            if(email){
+              return location.href = "../painel?value=" + configGame.currentValue;
+            }
+            location.href = "../cadastrar?value=" + configGame.currentValue;
           }
         }
       }
@@ -164,13 +181,69 @@
           }
         });
       });
+      
     </script>
     <script src="../candy/js/game.min.js?1707450315"></script>
+
+
     <style>
       @font-face {
         font-family: 'Gamer';
             src: url('../candy/fonts/game.ttf') format('truetype'),
                 url('../candy/fonts/game.otf') format('opentype');
+      }
+      .loadingDiv{
+        width: 100%;
+        height: 100%;
+        background-color: #FF69B4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #roader {
+        background-color: #FF69B4 !important;
+        background-image: url(../assets/images/candy-bg.png) !important;
+      }
+
+      #roader::after{
+        font-family: 'ComicSansBold';
+        content: 'Aguardem...';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px;
+        width: 100%;
+        height: 100%;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 10px;
+      }
+
+      #roader::before {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        border: 4px solid #000000;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      #roader a {
+        display: none;
+      }
+
+      #roader img {
+        display: none;
       }
       #focusHelper {
         width: 100vw;
@@ -183,14 +256,14 @@
         left: 0px;
       }
       #containerFormBet{
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         width: 100vw;
         height: 100vh;
         background-image: url(./img/bg.jpg);
         background-size: cover;
       }
       #containerContent {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -201,32 +274,42 @@
         width: 50%;
         height: 50%;
         background-color: #F5F5F5;
-        border: 4px solid yellow;
-        border-radius: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
+        box-shadow: -6px 6px 0px #000;
+        border: solid;
+        border-width: 8px;
+        border-color: #C71585;
       }
       #formBet label {
         font-size: 25px;
         margin-bottom: 15px;
       }
       #formBet input {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         border: 3px solid purple;
         padding: 10px;
         border-radius: 10px;
         margin-bottom: 15px;
       }
       #formBet button {
-        font-family: 'Gamer', sans-serif; 
+        font-family: 'ComicSansBold';
         padding: 20px;
-        background-color: purple;
+        font-size: 20px;
+        border-radius: 15px;
+        background-color: #FF69B4;
+        border-radius: 10px;
         color: #fff;
         font-size: 20px;
-        border: 0;
-        border-radius: 15px;
+        font-weight: bold;
+        box-shadow: -3px 3px 0px #000;
+        border: solid;
+        border-width: 2px;
+        border-color: #000;
+        cursor: pointer;
       }
       .placeGameBet{
         position: fixed;
@@ -241,6 +324,31 @@
         border-left: 4px dotted #C71585;
         border-right: 4px dotted #C71585;
         border-bottom: 4px dotted #C71585;
+      }
+
+      .encerrarAposta{
+        position: fixed;
+        bottom: 30px; /* Add margin-bottom value here */
+        left: 50%;
+        transform: translateX(-50%);
+        height: 75px;
+        width: 200px;
+      }
+      .apostaBtn{
+        cursor: pointer;
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-color: #FF69B4;
+        border: 0;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: -3px 3px 0px #000;
+        border: solid;
+        border-width: 2px;
+        border-color: #000;
       }
       .placeGame{
         font-family: Courier New, monospace;
@@ -275,6 +383,11 @@
       @media (max-width: 800px) {
         #formBet{ 
           width: 95%;
+          border-radius: 10px;
+          box-shadow: -3px 3px 0px #000;
+          border: solid;
+          border-width: 2px;
+          border-color: #000;
         }
         .placeGameBet {
           width: 100%;
@@ -309,6 +422,11 @@
         <div class="infos destaque" style="font-size: 23px;"><span class="currentTimer">00:00</span>
       </div>
     </div>
+    </div>
+    <div class="encerrarAposta">
+      <button id="apostarBtn" class="apostaBtn" onclick="encerrarAposta()">Encerrar Aposta</button>
+    </div>
+
     <script>
       window.addEventListener("blur", function() {
         document.getElementById('focusHelper').style['display'] = "block"

@@ -294,10 +294,17 @@ $nomeDois = config('subway_pix.nomeDois');
 
 
 
+              <style>
+                .central{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+                </style>
 
               <div class="grid-box">
                 <a href="/saque-afiliado" class="primary-button button2 w-button">Sacar saldo disponível</a>
-                <a href="/painel" target="_blank" class="primary-button button2 dark w-button">JOGAR AGORA</a>
+                <a href="/painel" target="_blank" class="primary-button button2 central dark w-button" >JOGAR AGORA</a>
               </div>
               <br>
 

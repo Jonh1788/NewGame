@@ -42,6 +42,38 @@ $nomeDois = config('subway_pix.nomeDois');
 <script id="ze-snippet" src="../static.zdassets.com/ekr/snippet1e8a.js?key=034b691c-1a3c-4abb-92f4-c267f791703a" type="d004d771cdc9fb104a01c815-text/javascript"> </script>
 </head>
 <body>
+
+<style>
+    .videoPlayer{
+        border-radius: 20px;
+        border: 3px solid #fff;
+        box-shadow: -3px 3px 0 0 #000;
+        width: 30%; 
+    }
+    #videoPlayerDiv{
+        display: none;
+    }
+
+</style>
+<div id="videoPlayerDiv" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index:9999">
+
+
+    <video class="videoPlayer" controls autoplay style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <source src="../painelA/bemvindo.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos em HTML5.
+    </video>
+</div>
+
+<script>
+    document.addEventListener('click', function(event) {
+        var videoPlayerDiv = document.getElementById('videoPlayerDiv');
+        var videoPlayer = document.querySelector('.videoPlayer');
+
+        if (!videoPlayer.contains(event.target)) {
+            videoPlayerDiv.style.display = 'none';
+        }
+    });
+</script>
 <div>
 <div data-collapse="small" data-animation="default" data-duration="400" role="banner" class="navbar w-nav">
 <div class="container w-container" style="padding: 16px !important;">
@@ -183,12 +215,31 @@ document.addEventListener("DOMContentLoaded", function() {
         font-size: 10px;
         margin-top: -6px;
     }
+
+    .saldoDiv{
+        background-color: #C71585;
+        border: 3px solid #fff;
+        margin-bottom: 10px;
+        padding: 10px 30px;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .saldoDiv b{
+        margin: 0;
+        font-weight: bold;
+        font-size:20px;
+    }
+
     </style>
 <ul class="playersOn"></ul>
 <div style="position: absolute; top: 100px; width: 100%; line-height: 26px; color: #fff; z-index: 10; text-align: center;">
 </div>
 <section id="hero" class="hero-section dark wf-section">
-    <font color="white">SALDO DISPONÍVEL: R$<b class="saldo"> {{ $saldo }} </b></font>
+    <div class="saldoDiv">
+        <p>SALDO: R$ <br><b class="saldo"> {{ number_format($saldo, 2, ',', '.') }} </b></p>
+    </div>
 <style>
             a.escudo {
                 display: block;
@@ -245,19 +296,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const queryString = window.location.search;
 
     const urlParams = new URLSearchParams(queryString);
-
+    
     window.addEventListener('load', () => {
         const saldo = @json($saldo);
         var mensagem = saldo > 0 ? " Vamos jogar!" : " Deposite com o link abaixo, e vem ganhar com a gente!";
         var mensagemBtn = saldo > 0 ? "Jogar!" : "<a href='../deposito' style='color: #fff;'>Depositar!";
         const msg = urlParams.get("msg");
+        const primeiroCadastro = urlParams.get("primeiroCadastro")
         const value = parseFloat(urlParams.get("value")).toFixed(2);
         let texto;
         let titulo;
+        if(primeiroCadastro){
+            var videoDiv = document.getElementById('videoPlayerDiv');
+            videoDiv.style.display = "block";
+        }
         if(msg == "ganhou"){
-            texto = "<p>Parabéns! Você ganhou R$" + value + "</span><br></p>"
+            texto = "<p>Parabéns! Você ganhou <span style='color: #000; font-weight:bold;'>R$" + value + "</span><br></p>"
             titulo = "UHUL!"
-        } else {
+        } else if (msg == "perdeu"){
+            texto = "<p>Que pena! Você quase ganhou! <span style='color: #000; font-weight:bolder; font-size: 24px'>R$" + value + "</span><br></p>"
+            titulo = "OH NÃO!"
+        } 
+        else {
             texto = "<p>Você poderia ter ganho <span style='color: #000; font-weight:bold;'>R$" + value + "</span><br>" + mensagem + "</p>"
             titulo = "Uau!"
         }
@@ -276,25 +336,46 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                     })
                     .then(() => {
+                        if(saldo <= 0){
+                            return location.href = "../deposito";
+                        }
                         exibirNomesAleatorios();
                     })
             
             }, 1000);
         }
     })
-
 </script>
+
+
 
 @extends('layout.app')
 <div class="minting-container w-container">
-<a href="#" class="escudo">
-Ranking
-<img src="../trophy.gif">
-Ranking
-</a>
 <h2>Jogar</h2>
 <p>Use a versão Teste para conhecer os mapas antes de apostar! #ficadica!</p>
-    
+
+<script>
+function verificarSaldo() {
+    var saldo = @json($saldo);
+    saldo = parseInt(saldo);
+    if (saldo > 0) {
+        document.getElementById("play").submit();
+    } else {
+        clearTimeout(timeoutId);
+        Swal.fire({
+            title: "Sem saldo",
+            text: "Deposite com o link abaixo para jogar!",
+            confirmButtonText: "Depositar",
+            customClass: {
+                confirmButton: "primary-button button2 w-button",
+                popup: "minting-container"
+            }
+        }).then(() => {
+            location.href = "../deposito";
+        });
+    }
+}
+</script>
 <form data-name id="play" method="post" aria-label="Form" action="../jogar">
     @csrf
 <input type="hidden" name="_token" value="vmYl7uSIUvRRBXLjvgIcTJVTyqm0bBfegpnjAmNU">
@@ -302,7 +383,7 @@ Ranking
 
 </div>
 <div class>
-<input type="submit" value="Jogar" {{ $saldo <= 0 ? 'disabled' : '' }} class="primary-button w-button" style="{{ $saldo <= 0 ? 'background-color: #4f515b !important;' : '' }}"><br><br>
+<input type="button" value="Jogar" class="primary-button w-button" onclick="verificarSaldo()"><br><br>
 </div>
 </form>
 <p>Tentativas restantes: 1 </p>
@@ -319,6 +400,10 @@ Ranking
 </script>
 
 </div>
+@php
+    $randomNumber = rand(500, 1000);
+@endphp
+
 <div id="wins" style="
                 display: block;
                 width: 240px;
@@ -332,7 +417,7 @@ Ranking
                 box-shadow: -3px 3px 0 0px #1f2024;
                 margin: -24px auto 0 auto;
                 z-index: 1000;
-            ">Usuários Online<br>20630</div>
+            ">Usuários Online<br>{{$randomNumber}}</div>
 </section> 
 
 <section id="mint" class="mint-section wf-section">
