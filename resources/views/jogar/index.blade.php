@@ -22,12 +22,8 @@
     <meta name="splashscreen-big-game-url" content="img/teaser@2x.jpg" />
     <meta name="supports-ad-play-button" content="true" />
     <link rel="stylesheet" href="../candy/css/stylesheet.css" type="text/css" charset="utf-8" />
-    <script type="text/javascript">
-        if(localStorage.getItem("glmdataCC") !== null) {
-            localStorage.removeItem("glmdataCC");
-        }
-    </script>
     <script src="../candy/js/custom-phaser.min.js"></script>
+    <script src="../candy/js/game.min.js?1707450315"></script>
     <script type="text/javascript">
       function scorepost(href, inputs) {
         var gform = document.createElement('form');
@@ -45,12 +41,13 @@
         document.body.removeChild(gform);
       }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script type="text/javascript">
+      
       const session = 'eb3c61ac9597755c98320f4acf3f9d03';
       const typeGame = @json($jogo);
       const difyGame = 0;
-      const balance  = @json($saldo) 
+      const balance  = @json($saldo);
 
       function hideDiv(el) {
         el.style.display = 'none';
@@ -58,8 +55,9 @@
       function showDiv(el) {
         el.style.display = '';
       }
-      
+
       /******************* TIMER CONFIG ******************/
+
       function updateTimer(el, seconds) {
         if(configGame.stateGame) {
           const minutes = Math.floor(seconds / 60);
@@ -69,6 +67,7 @@
           el.innerText = formattedMinutes + ':' + formattedSeconds;
         }
       }
+
       function startTimer(el, seconds) {
         updateTimer(el, seconds);
         const timerInterval = setInterval(function () {
@@ -89,9 +88,11 @@
         timer: 90,
         meta: () => { return configGame.value * 10; }
       }
+
       function setText(el, value) {
         el.innerText = value;
       }
+
       const els = {
         currentRound: () => {
           return  document.querySelector(`#round-1`);
@@ -106,6 +107,7 @@
           return document.querySelector(`#round-1 .currentTimer`);
         }
       }
+
       function extTriggerPoints(coin = 1) {
         var currentPoints = els.currentPoints();
         var percent = 10;
@@ -145,10 +147,10 @@
         if(configGame.stateGame) {
           configGame.stateGame = false;
           if(typeGame != 'Demo') {
-              var msg_loss = 'Que pena, não foi dessa vez!';
-              $.post("../gameover/loss", { aposta: configGame.value, email: @json($emailSession) }, function (data) {
-                      location.href = "../painel?msg=perdeu&value=" + configGame.currentValue;
-                  });
+            var msg_loss = 'Que pena, não foi dessa vez!';
+            $.post("../gameover/loss", { aposta: configGame.value, email: @json($emailSession) }, function (data) {
+              location.href = "../painel?msg=perdeu&value=" + configGame.currentValue;
+            });
           }else {
             if(email){
               return location.href = "../painel?value=" + configGame.currentValue;
@@ -166,7 +168,7 @@
         setText(currentMeta, configGame.meta().toFixed(2));
         startTimer(currentTimer, configGame.timer);
       }
-      
+
       window.addEventListener('load', (event) => {
         var container = document.querySelector('#containerFormBet');
         var inpBet   = document.querySelector('#valueBet');
@@ -181,223 +183,8 @@
           }
         });
       });
-      
+
     </script>
-    <script src="../candy/js/game.min.js?1707450315"></script>
-
-
-    <style>
-      @font-face {
-        font-family: 'Gamer';
-            src: url('../candy/fonts/game.ttf') format('truetype'),
-                url('../candy/fonts/game.otf') format('opentype');
-      }
-      .loadingDiv{
-        width: 100%;
-        height: 100%;
-        background-color: #FF69B4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      #roader {
-        background-color: #FF69B4 !important;
-        background-image: url(../assets/images/candy-bg.png) !important;
-      }
-
-      #roader::after{
-        font-family: 'ComicSansBold';
-        content: 'Aguardem...';
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 32px;
-        width: 100%;
-        height: 100%;
-        font-weight: bold;
-        text-align: center;
-        margin-left: 10px;
-      }
-
-      #roader::before {
-        content: '';
-        display: block;
-        width: 50px;
-        height: 50px;
-        border: 4px solid #000000;
-        border-top-color: transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        position: absolute;
-        top: 55%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      @keyframes spin {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
-      }
-      #roader a {
-        display: none;
-      }
-
-      #roader img {
-        display: none;
-      }
-      #focusHelper {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        display: none;
-        background-color: #000000;
-        opacity: 0;
-        top: 0px;
-        left: 0px;
-      }
-      #containerFormBet{
-        font-family: 'ComicSansBold';
-        width: 100vw;
-        height: 100vh;
-        background-image: url(./img/bg.jpg);
-        background-size: cover;
-      }
-      #containerContent {
-        font-family: 'ComicSansBold';
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      #formBet{
-        width: 50%;
-        height: 50%;
-        background-color: #F5F5F5;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        box-shadow: -6px 6px 0px #000;
-        border: solid;
-        border-width: 8px;
-        border-color: #C71585;
-      }
-      #formBet label {
-        font-size: 25px;
-        margin-bottom: 15px;
-      }
-      #formBet input {
-        font-family: 'ComicSansBold';
-        border: 3px solid purple;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 15px;
-      }
-      #formBet button {
-        font-family: 'ComicSansBold';
-        padding: 20px;
-        font-size: 20px;
-        border-radius: 15px;
-        background-color: #FF69B4;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 20px;
-        font-weight: bold;
-        box-shadow: -3px 3px 0px #000;
-        border: solid;
-        border-width: 2px;
-        border-color: #000;
-        cursor: pointer;
-      }
-      .placeGameBet{
-        position: fixed;
-        top: 0px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #BA55D3;
-        width: 50%;
-        height: 75px;
-        z-index: 1000000000;
-        border-radius: 0px 0px 70px 70px;
-        border-left: 4px dotted #C71585;
-        border-right: 4px dotted #C71585;
-        border-bottom: 4px dotted #C71585;
-      }
-
-      .encerrarAposta{
-        position: fixed;
-        bottom: 30px; /* Add margin-bottom value here */
-        left: 50%;
-        transform: translateX(-50%);
-        height: 75px;
-        width: 200px;
-      }
-      .apostaBtn{
-        cursor: pointer;
-        display: none;
-        width: 100%;
-        height: 100%;
-        background-color: #FF69B4;
-        border: 0;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 20px;
-        font-weight: bold;
-        box-shadow: -3px 3px 0px #000;
-        border: solid;
-        border-width: 2px;
-        border-color: #000;
-      }
-      .placeGame{
-        font-family: Courier New, monospace;
-        font-weight: bold;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        color: #fff;
-        font-size: 15px;
-      }
-      .infos {
-        width: 50%;
-        text-align: center;
-      }
-      @keyframes blink {
-        0% { opacity: 1; }
-        50% { opacity: 0.2; }
-        100% { opacity: 1; }
-      }
-      @keyframes shine {
-        0% { text-shadow: 0 0 10px #fff; }
-        50% { text-shadow: 0 0 20px #fff, 0 0 30px #ff0; }
-        100% { text-shadow: 0 0 10px #fff; }
-      }
-
-      .destaque {
-        animation: blink 2s infinite, shine 1s infinite; /* ajuste a duração conforme necessário */
-      }
-      @media (max-width: 800px) {
-        #formBet{ 
-          width: 95%;
-          border-radius: 10px;
-          box-shadow: -3px 3px 0px #000;
-          border: solid;
-          border-width: 2px;
-          border-color: #000;
-        }
-        .placeGameBet {
-          width: 100%;
-          height: 120px;
-          border-radius: 0;
-          border: 0;
-          border-bottom: 4px dotted #C71585;
-        }
-      }
-    </style>
   </head>
   <body onLoad="initGame()">
     <div id="gameFontPreload">
@@ -435,6 +222,6 @@
         document.getElementById('focusHelper').style['display'] = "none"
       })
     </script>
-    <!--<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>-->
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
   </body>
 </html>
