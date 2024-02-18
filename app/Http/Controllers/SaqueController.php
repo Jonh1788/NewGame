@@ -9,6 +9,9 @@ class SaqueController extends Controller
 {
     public function index(Request $request){
 
+if(!session()->has('email')){
+    return redirect('/login');
+}
         if(session()->has('email')){
             $email = session()->get('email');
 
@@ -17,7 +20,7 @@ class SaqueController extends Controller
             ->where('email', $email)
             -> first();
 
-        
+        $saldo = 0;
 
             if($consulta_saldo){
                 $saldo = $consulta_saldo->saldo;

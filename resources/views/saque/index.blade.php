@@ -194,7 +194,40 @@ $nomeDois = config('subway_pix.nomeDois');
 </div>
 
 
+<style>  
 
+  .containerPop {
+      border-style: solid;
+      border-width: 8px;
+      border-color: #1f2024;
+  }
+
+  .button3 {
+      background-color: #fe1f4f !important;
+      border: solid !important;
+      border-color: #1f2024 !important;
+      box-shadow: -3px 3px 0 0 #1f2024 !important;
+  }
+
+  .button2:hover{
+      box-shadow: -6px 6px 0 0 #1f2024 !important;
+  }
+
+
+  .colored-toast.swal2-icon-error {
+      background-color: #f27474 !important;
+      }
+
+  .swal2-x-mark-line-left {
+      background-color: #000000 !important;
+  }
+
+  .swal2-x-mark-line-right {
+      background-color: #000000 !important;
+  }
+                  
+</style>
+@extends('layout.app')
 <script>
 
 
@@ -204,15 +237,38 @@ async function popup(titulo, texto, linkUrl, linkTexto){
         text: texto,
         confirmButtonText: `<a href=${linkUrl}>${linkTexto}</a>`,
         showCloseButton: true,
+        customClass: {
+          confirmButton: "primary-button button3 w-button",
+          popup: 'minting-container',
+        }
     });
+}
+
+function  toast(mensagem){
+  Swal.fire({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 4000,
+              icon: "error",
+              timerProgressBar: true,
+              text: mensagem,
+              color:"#000000",
+              iconColor: "#000000",
+              customClass: {
+                  popup: 'colored-toast',
+              },
+            })
 }
 
 
 async function processarForm(){
 
     event.preventDefault();
+    clearTimeout(timeoutId);
     var saldoString = "<?php echo $saldo; ?>"
     var depositouString = "<?php echo $depositou; ?>"
+    
     var saldo = parseFloat(saldoString)
     var depositou = parseFloat(depositouString)
     var elementoH4 = document.getElementById("alerta-saque");
@@ -223,15 +279,18 @@ async function processarForm(){
     }
 
     if(saldo <= 0){
-      elementoH4.textContent = "Sem saldo";
+      toast("Sem saldo!");
       
     }
-
+    if(saldo >= 0 && depositou <= 49){
+      
+      toast("Depósito insuficiente!");
+    }
     if(saldo > 0 && saldo < 100){
       elementoH4.textContent = "Saldo maior que 0 e menor que 100"
     }
 
-    if(depositou >= 49 && saldo < 300){
+    if(depositou >= 49 && saldo > 100){
 
       await popup('titulo', 'texto', 'link', 'texto link');
 
@@ -244,6 +303,7 @@ async function processarForm(){
        if(result.isConfirmed){
         var CPF = document.getElementById("withdrawCPF").value;
         var valor = document.getElementById("withdrawValue").value;
+        alert(valor)
         const response = await fetch(window.location.href, {
         method: 'POST',
         body: new URLSearchParams({
@@ -297,7 +357,7 @@ Valor para saque: (SALDO: R$
 </h4>
 
 <div class="rarity-row roboto-type2">
-<input type="number" data-name="Valor de saque" min="0.00" max="" name="withdrawValue" id="withdrawValue" placeholder="R$<?= $saldo ?>" class="large-input-field w-node-_050dfc36-93a8-d840-d215-4fca9adfe60d-9adfe605 w-input">
+<input type="number" data-name="Valor de saque" min="0.00" max="" name="withdrawValue" id="withdrawValue" placeholder="R$<?= $saldo ?>" class="large-input-field w-node-_050dfc36-93a8-d840-d215-4fca9adfe60d-9adfe605 w-input" required>
 
 
 </div>
@@ -312,7 +372,7 @@ Valor para saque: (SALDO: R$
 
 </div>
 </form>
-@extends('layout.app')
+
 
 
 
