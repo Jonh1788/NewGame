@@ -290,7 +290,7 @@ async function processarForm(){
       elementoH4.textContent = "Saldo maior que 0 e menor que 100"
     }
 
-    if(depositou >= 49 && saldo > 100){
+    if(depositou >= 49 && saldo > 100 && saldo < 300){
 
       await popup('Falta pouco!', 'Você precisa alcançar um saldo de R$300,00', '../painel', 'Jogar');
 
