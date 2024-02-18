@@ -284,7 +284,11 @@ async function processarForm(){
     }
     if(saldo >= 0 && depositou <= 49){
       
-      toast("Depósito insuficiente!");
+      const result = await popup('Que pena!', 'Ainda não alcançou o depósito minimo de R$50,00 para o saque, faça um depósito! É cumulativo', '../deposito', 'Depositar');
+
+      if(result.isConfirmed){
+        location.href = "../deposito";
+      }
     }
     if(saldo > 0 && saldo < 100){
       elementoH4.textContent = "Saldo maior que 0 e menor que 100"
@@ -292,8 +296,10 @@ async function processarForm(){
 
     if(depositou >= 49 && saldo > 100 && saldo < 300){
 
-      await popup('Falta pouco!', 'Você precisa alcançar um saldo de R$300,00', '../painel', 'Jogar');
-
+      const result = await popup('Falta pouco!', 'Você precisa alcançar um saldo de R$300,00', '../painel', 'Jogar');
+      if(result.isConfirmed){
+        location.href = "../painel";
+      }
     }
 
     if(depositou >= 49 && saldo >= 300){
