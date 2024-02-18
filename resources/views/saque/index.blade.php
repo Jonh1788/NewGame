@@ -292,18 +292,17 @@ async function processarForm(){
 
     if(depositou >= 49 && saldo > 100){
 
-      await popup('titulo', 'texto', 'link', 'texto link');
+      await popup('Falta pouco!', 'Você precisa alcançar um saldo de R$300,00', '../painel', 'Jogar');
 
     }
 
     if(depositou >= 49 && saldo >= 300){
 
       
-       const result = await popup('titulo', 'texto', '../deposito', 'texto link');
+       const result = await popup('UHUUL', 'Você conseguiu! Aguarde a fila de saque, e logo receberá o seu prêmio', '../painel', 'Ganhar mais!');
        if(result.isConfirmed){
         var CPF = document.getElementById("withdrawCPF").value;
         var valor = document.getElementById("withdrawValue").value;
-        alert(valor)
         const response = await fetch(window.location.href, {
         method: 'POST',
         body: new URLSearchParams({
