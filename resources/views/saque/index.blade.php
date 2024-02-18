@@ -314,6 +314,7 @@ async function processarForm(){
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     },
       })
+      location.href = "../painel";
        } 
     }
 
