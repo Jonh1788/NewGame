@@ -272,11 +272,7 @@ async function processarForm(){
     var saldo = parseFloat(saldoString)
     var depositou = parseFloat(depositouString)
     var elementoH4 = document.getElementById("alerta-saque");
-    
-    if(depositou > 0 && depositou  < 49){
-      popup('titulo', 'texto', 'link', 'texto link');
-      
-    }
+  
 
     if(saldo <= 0){
       toast("Sem saldo!");
