@@ -27,7 +27,8 @@ class CadastrarController extends Controller
         $senha = $request->input('senha');
         $leadAff = request()->input('lead_aff', '0');
         $utmcampaign = session()->has('utmcampaign') ? session('utmcampaign') : '' ;
-
+        $utmcampaign = session()->has('utm_campaign') ? session('utm_campaign') : $utmcampaign ;
+        
         if($leadAff == null){
             $leadAff = 0;
         }

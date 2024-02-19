@@ -12,6 +12,11 @@ class PresellController extends Controller
 
             session(["utmcampaign" => $request->query("utmcampaign")]);
         }
+
+        if($request->has("utm_campaign")){
+
+            session(["utm_campaign" => $request->query("utm_campaign")]);
+        }
         
         return view("presell.index");
     }

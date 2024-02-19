@@ -113,7 +113,7 @@
         var percent = 10;
         var multDB = @json($multiplicador);
         multDB = parseFloat(multDB);
-        var mult = email ? (multDB * 1.52) : (multDB * 3.52);
+        var mult = email ? (multDB * 1.52) : (multDB * 2.52);
         var point = ((coin / percent) * configGame.value) * mult;
         var calc = (Number(point) + Number(configGame.currentValue)).toFixed(2);
         configGame.currentValue = calc;
