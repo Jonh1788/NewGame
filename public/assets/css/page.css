@@ -4919,7 +4919,7 @@ li {
 
     font-size: 16vw;
 
-    text-shadow: -17px 17px 0 #1f2024;
+    text-shadow: -6px 6px 0 #1f2024;
 
     cursor: crosshair;
 
@@ -4975,11 +4975,11 @@ li {
 
     border-style: solid;
 
-    border-width: 4px;
+    border-width: 2px;
 
     border-color: #1f2024;
 
-    border-radius: 8px;
+    border-radius: 24px;
 
     background-color: #FF69B4;
 
@@ -5041,9 +5041,9 @@ li {
 
     align-self: center;
 
-    border-width: 8px;
+    border-width: 2px;
 
-    border-radius: 12px;
+    border-radius: 24px;
 
     background-color: #FF69B4;
 
@@ -5139,7 +5139,7 @@ li {
 
 .nav-bar {
 
-    position: fixed;
+    position: absolute;
 
     left: 0%;
 
@@ -5275,7 +5275,7 @@ li {
 
     background-color: #EE82EE;
 
-    background-image: url(../images/candy-bg.png);
+    
 
     background-position: 50% 50%;
 
@@ -5306,6 +5306,172 @@ li {
 }
 
 
+@keyframes forRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-200vw);
+    }
+    40% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .minting-container {
+        animation: forRight linear both !important;
+        animation-timeline: view() !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .candygame2 {
+        top: 5% !important;
+    }
+
+    .candygame {
+        left: 50% !important;
+    }
+
+    .candygame3 {
+        top: 70% !important;
+        left: 20% !important;
+    
+    }
+}
+
+.candygame{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 160px;
+    height: 160px;
+    justify-items: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 20%;
+    padding 10px;
+
+}
+
+.candygame2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 160px;
+    height: 160px;
+    justify-items: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+    top: 10%;
+    left: 5%;
+    padding 10px;
+}
+
+.candygame3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 160px;
+    height: 160px;
+    justify-items: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+    top: 40%;
+    left: 80%;
+    padding 10px;
+}
+.candygame3 img{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: 0.5s; 
+}
+
+.candygame2 img{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: 0.5s; 
+}
+
+.moneyText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+    transition: 0.5s;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.moneyText2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+    transition: 0.5s;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.moneyText0{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+    transition: 0.5s;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.moneyMove {
+   
+    opacity: 1;
+}
+
+.candygame img{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: 0.5s; 
+}
+
+
+
+.movedLower {
+    transform: translateY(50px);
+
+}
+
+.movedUpper {
+    transform: translateY(-50px) ;
+
+}
+
+.movedRight {
+    transform: translateX(50px);
+
+}
+
+.movedLeft {
+    transform: translateX(-50px);
+
+}
+
+.explode {
+    opacity: 0;
+}	
 
 .minting-container {
 
@@ -5344,8 +5510,6 @@ li {
     border-width: 8px;
 
     border-color: #C71585;
-
-    border-radius: 24px;
 
     background-color: #fff;
 
@@ -5635,11 +5799,12 @@ li {
 
     align-items: center;
 
-    background-image: url(../images/candy-bg-top.jpg);
-
     background-position: 50% 50%;
 
     background-size: auto;
+
+    background-image: linear-gradient(-45deg, #EE82EE, #FF69B4),
+                    linear-gradient(45deg, #FF1493, #FF69B4) !important;
 
 }
 
@@ -6329,13 +6494,6 @@ li {
 
     width: 200px;
 
-    margin: -120px auto 16px;
-
-    border: 5px solid #C71585;
-
-    border-radius: 100%;
-
-    background-color: #FF69B4;
 
 }
 
@@ -6607,7 +6765,7 @@ li {
 
 .navbar {
 
-    position: fixed;
+    position: absolute;
 
     left: 0%;
 
@@ -7391,7 +7549,7 @@ li {
 
     .hero-heading {
 
-        text-shadow: -11px 11px 0 #1f2024
+        text-shadow: -3px 3px 0 #1f2024
 
     }
 
@@ -7691,7 +7849,7 @@ li {
 
         line-height: .75em;
 
-        text-shadow: -8px 8px 0 #1f2024
+        text-shadow: -3px 3px 0 #1f2024
 
     }
 
@@ -7729,7 +7887,6 @@ li {
 
         padding-left: 24px;
 
-        border-width: 6px
 
     }
 
@@ -8247,7 +8404,7 @@ li {
     .minting-container {
 
         padding-right: 16px;
-
+        border-radius: 0 !important;
         padding-left: 16px
 
     }
